@@ -1,83 +1,81 @@
 import { useState, useEffect, useRef } from "react";
 import Icon from "@/components/ui/icon";
 
-const HERO_IMAGE = "https://cdn.poehali.dev/projects/e677eb62-79aa-4d95-8eff-5099a1456205/files/5c7a9eb5-ffa0-4801-9014-d59f9f498c45.jpg";
+const HERO_IMAGE = "https://cdn.poehali.dev/projects/e677eb62-79aa-4d95-8eff-5099a1456205/files/c54a2934-ab33-4a05-adc9-a332ed22cee9.jpg";
 const TEAM_IMAGE = "https://cdn.poehali.dev/projects/e677eb62-79aa-4d95-8eff-5099a1456205/files/e34693a2-2633-4dc8-a884-872e832646d6.jpg";
 
 const NAV_LINKS = [
-  { label: "О компании", href: "#about" },
-  { label: "Услуги", href: "#services" },
-  { label: "Проекты", href: "#projects" },
-  { label: "Лицензии", href: "#licenses" },
-  { label: "Новости", href: "#news" },
-  { label: "Контакты", href: "#contacts" },
+  { label: "ГЛАВНАЯ", href: "#hero" },
+  { label: "О КОМПАНИИ", href: "#about" },
+  { label: "ПРОЕКТЫ", href: "#projects" },
+  { label: "НОВОСТИ", href: "#news" },
+  { label: "КОНТАКТЫ", href: "#contacts" },
+  { label: "СТАТЬИ", href: "#news" },
 ];
 
-const STATS = [
-  { value: "20", suffix: "+", label: "лет на рынке" },
-  { value: "800", suffix: "+", label: "завершённых проектов" },
-  { value: "2006", suffix: "", label: "год основания" },
-  { value: "100", suffix: "%", label: "регионов России" },
+const HERO_BULLETS = [
+  "Работаем с 2006 года",
+  "Более 800 успешно завершённых проектов",
+  "Индивидуальные условия для каждого заказчика",
 ];
 
-const SERVICES = [
-  {
-    icon: "Waves",
-    title: "Защита берегов",
-    desc: "Комплексная защита берегов рек, морей и водохранилищ от размыва и разрушения. Проектирование берегоукрепительных сооружений.",
-  },
-  {
-    icon: "Mountain",
-    title: "Противооползневые решения",
-    desc: "Инженерные решения по стабилизации склонов, предотвращению оползней и обрушений на сложном рельефе.",
-  },
-  {
-    icon: "Droplets",
-    title: "Водопонижение и водоотведение",
-    desc: "Проектирование систем водопонижения, дренажа и организации водоотведения на подтапливаемых территориях.",
-  },
-  {
-    icon: "Building2",
-    title: "Гидротехнические сооружения",
-    desc: "Разработка проектной документации для плотин, набережных, портовой инфраструктуры и искусственных территорий.",
-  },
+const FEATURES = [
   {
     icon: "FlaskConical",
-    title: "Изыскания и исследования",
-    desc: "Инженерно-геологические, гидрологические и гидроморфологические изыскания для объектов берегозащиты.",
+    title: "НАУЧНАЯ БАЗА РЕШЕНИЙ",
+    desc: "Научно-исследовательские работы для оптимальных решений для сложных природных условий",
   },
   {
-    icon: "Map",
-    title: "Искусственные пляжи и порты",
-    desc: "Проектирование искусственных пляжей, намывных территорий и объектов портовой инфраструктуры на побережье.",
+    icon: "Settings",
+    title: "ШИРОКИЙ СПЕКТР УСЛУГ",
+    desc: "Реализация проектов «под ключ»",
+  },
+  {
+    icon: "Award",
+    title: "ДОПУСКИ И СЕРТИФИКАТЫ",
+    desc: "Для государственных и частных контрактов",
+  },
+  {
+    icon: "MapPin",
+    title: "РАБОТА ПО ВСЕЙ СТРАНЕ",
+    desc: "Оформляем проекты в любом регионе страны без ограничений",
+  },
+];
+
+const ACTIVITIES = [
+  {
+    num: "01",
+    text: "Проектирование и строительство берегозащитных, речных и морских гидротехнических сооружений, проектирование противопаводковых мероприятий",
+  },
+  {
+    num: "02",
+    text: "Инженерные изыскания для строительства (геодезические, гидрометеорологические и др.)",
+  },
+  {
+    num: "03",
+    text: "Разработка мероприятий по предотвращению и снижению негативного воздействия работ и выполнение расчётов причинённого ущерба объектам живого мира",
+  },
+  {
+    num: "04",
+    text: "Подготовка и сопровождение документов при прохождении государственной экологической экспертизы",
+  },
+  {
+    num: "05",
+    text: "Выполнение работ по расчистке русел рек, в т.ч. в целях предупреждения и ликвидации последствий ЧС",
+  },
+  {
+    num: "06",
+    text: "Научно-исследовательские и опытно-конструкторские работы",
   },
 ];
 
 const PROJECTS = [
-  {
-    tag: "Краснодарский край",
-    title: "Укрепление берега реки Кубань",
-    type: "Берегоукрепление",
-    year: "2023",
-  },
-  {
-    tag: "Черноморское побережье",
-    title: "Противооползневая защита склона в районе Сочи",
-    type: "Противооползневые работы",
-    year: "2022",
-  },
-  {
-    tag: "Азовское море",
-    title: "Берегозащитные сооружения в Ейском районе",
-    type: "Гидротехника",
-    year: "2023",
-  },
-  {
-    tag: "Республика Крым",
-    title: "Дренажная система на оползнеопасном склоне",
-    type: "Водопонижение",
-    year: "2021",
-  },
+  { tag: "Краснодарский край", title: "Укрепление берега реки Кубань", type: "Берегоукрепление", year: "2023" },
+  { tag: "Черноморское побережье", title: "Противооползневая защита склона в районе Сочи", type: "Противооползневые работы", year: "2022" },
+  { tag: "Азовское море", title: "Берегозащитные сооружения в Ейском районе", type: "Гидротехника", year: "2023" },
+  { tag: "Республика Крым", title: "Дренажная система на оползнеопасном склоне", type: "Водопонижение", year: "2021" },
+  { tag: "Ростовская область", title: "Берегоукрепление р. Дон в г. Ростов-на-Дону", type: "Берегоукрепление", year: "2022" },
+  { tag: "Ставропольский край", title: "Противопаводковые мероприятия на р. Кума", type: "Гидротехника", year: "2023" },
 ];
 
 const LICENSES = [
@@ -89,19 +87,19 @@ const LICENSES = [
 
 const NEWS = [
   {
-    date: "12 марта 2026",
+    date: "12.03.2026",
     tag: "Новость",
     title: "Завершён проект берегоукрепления на р. Белая в Республике Адыгея",
     desc: "Специалисты компании успешно завершили разработку рабочей документации для берегозащитных сооружений протяжённостью 1,2 км.",
   },
   {
-    date: "05 февраля 2026",
+    date: "05.02.2026",
     tag: "Статья",
     title: "Современные методы защиты берегов от размыва: опыт Черноморского побережья",
     desc: "Обзорная статья по актуальным технологиям берегоукрепления с анализом практики на объектах Азово-Черноморского побережья.",
   },
   {
-    date: "20 января 2026",
+    date: "20.01.2026",
     tag: "Новость",
     title: "НПЦ «Берегозащита» получила новый крупный контракт в 2026 году",
     desc: "Подписан договор на комплексное проектирование противооползневой защиты территории площадью 45 га в Краснодарском крае.",
@@ -124,185 +122,158 @@ function useCountUp(target: number, duration = 2000, start = false) {
   return count;
 }
 
-function StatCard({ value, suffix, label }: { value: string; suffix: string; label: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [started, setStarted] = useState(false);
-  const numVal = parseInt(value);
-  const count = useCountUp(numVal, 1800, started);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setStarted(true); },
-      { threshold: 0.5 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div ref={ref} className="stat-card">
-      <span className="stat-value">{count}{suffix}</span>
-      <span className="stat-label">{label}</span>
-    </div>
-  );
-}
-
 export default function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [yearsStarted, setYearsStarted] = useState(false);
+  const yearsRef = useRef<HTMLDivElement>(null);
+  const years = useCountUp(20, 1600, yearsStarted);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    const onScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setYearsStarted(true); },
+      { threshold: 0.5 }
+    );
+    if (yearsRef.current) observer.observe(yearsRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   const scrollTo = (href: string) => {
     setMenuOpen(false);
+    if (href === "#hero") { window.scrollTo({ top: 0, behavior: "smooth" }); return; }
     const el = document.querySelector(href);
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <div className="site-root">
-      {/* NAV */}
-      <header className={`site-nav ${scrolled ? "nav-scrolled" : ""}`}>
-        <div className="nav-inner">
-          <a className="nav-logo" href="#hero" onClick={(e) => { e.preventDefault(); scrollTo("#hero"); }}>
-            <span className="logo-mark">БЗ</span>
-            <div className="logo-text">
-              <span className="logo-main">НПЦ «Берегозащита»</span>
-              <span className="logo-sub">инженерная защита территорий</span>
+    <div className="v2-root">
+      {/* TOP BAR */}
+      <div className="v2-topbar">
+        <div className="v2-topbar-inner">
+          <div className="v2-topbar-contacts">
+            <span className="v2-topbar-item">
+              <Icon name="MapPin" size={13} />
+              Краснодарский край, г. Краснодар, ул. Чапаева, 127
+            </span>
+            <span className="v2-topbar-item">
+              <Icon name="Clock" size={13} />
+              Пн–Пт: 9:00 – 18:00
+            </span>
+          </div>
+          <div className="v2-topbar-right">
+            <a href="tel:+78612511234" className="v2-topbar-phone">
+              +7 (861) 251-93-59
+            </a>
+            <button className="v2-callback-btn">Заказать обратный звонок</button>
+            <a href="mailto:bz@kuban-bz.ru" className="v2-topbar-email">
+              <Icon name="Mail" size={13} />
+              bz@kuban-bz.ru
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* HEADER */}
+      <header className={`v2-header ${scrolled ? "v2-header-shadow" : ""}`}>
+        <div className="v2-header-inner">
+          <div className="v2-logo">
+            <div className="v2-logo-icon">
+              <span>Б</span>
             </div>
-          </a>
-          <nav className="nav-links">
+            <div className="v2-logo-text">
+              <span className="v2-logo-name">БЕРЕГОЗАЩИТА</span>
+              <span className="v2-logo-sub">НАУЧНЫЙ И ПРОЕКТНЫЙ ЦЕНТР</span>
+            </div>
+          </div>
+          <nav className="v2-nav">
             {NAV_LINKS.map((l) => (
-              <button key={l.href} onClick={() => scrollTo(l.href)} className="nav-link">
+              <button key={l.label} onClick={() => scrollTo(l.href)} className="v2-nav-link">
                 {l.label}
               </button>
             ))}
           </nav>
-          <button className="nav-cta" onClick={() => scrollTo("#contacts")}>
-            Связаться
-          </button>
-          <button className="nav-burger" onClick={() => setMenuOpen(!menuOpen)}>
+          <div className="v2-search">
+            <input type="text" placeholder="" className="v2-search-input" />
+            <Icon name="Search" size={16} />
+          </div>
+          <button className="v2-burger" onClick={() => setMenuOpen(!menuOpen)}>
             <Icon name={menuOpen ? "X" : "Menu"} size={22} />
           </button>
         </div>
         {menuOpen && (
-          <div className="mobile-menu">
+          <div className="v2-mobile-menu">
             {NAV_LINKS.map((l) => (
-              <button key={l.href} onClick={() => scrollTo(l.href)} className="mobile-link">
+              <button key={l.label} onClick={() => scrollTo(l.href)} className="v2-mobile-link">
                 {l.label}
               </button>
             ))}
-            <button className="mobile-cta" onClick={() => scrollTo("#contacts")}>
-              Связаться с нами
-            </button>
           </div>
         )}
       </header>
 
       {/* HERO */}
-      <section id="hero" className="hero-section">
-        <div className="hero-bg">
-          <img src={HERO_IMAGE} alt="Берегозащита" className="hero-img" />
-          <div className="hero-overlay" />
-        </div>
-        <div className="hero-content">
-          <div className="hero-badge">Основана в 2006 году · Азово-Черноморское побережье</div>
-          <h1 className="hero-title">
-            Инженерная защита<br />
-            <em>берегов и территорий</em>
+      <section id="hero" className="v2-hero">
+        <div className="v2-hero-left">
+          <h1 className="v2-hero-title">
+            Инженерные решения по берегозащите, гидротехническому строительству
           </h1>
-          <p className="hero-desc">
-            Научно-проектная компания полного цикла — от изысканий до рабочей документации.
-            Защищаем берега рек, морей и водохранилищ по всей России.
-          </p>
-          <div className="hero-actions">
-            <button className="btn-primary" onClick={() => scrollTo("#projects")}>
-              Наши проекты
-            </button>
-            <button className="btn-outline" onClick={() => scrollTo("#contacts")}>
-              Получить консультацию
-            </button>
-          </div>
+          <ul className="v2-hero-list">
+            {HERO_BULLETS.map((b) => (
+              <li key={b} className="v2-hero-bullet">
+                <span className="v2-bullet-dot" />
+                {b}
+              </li>
+            ))}
+          </ul>
+          <button className="v2-hero-btn" onClick={() => scrollTo("#contacts")}>
+            Связаться
+          </button>
         </div>
-        <div className="hero-scroll">
-          <Icon name="ChevronDown" size={20} />
+        <div className="v2-hero-right">
+          <img src={HERO_IMAGE} alt="Берегозащита" className="v2-hero-img" />
         </div>
       </section>
 
-      {/* STATS */}
-      <section className="stats-section">
-        {STATS.map((s) => (
-          <StatCard key={s.label} {...s} />
-        ))}
-      </section>
-
-      {/* ABOUT */}
-      <section id="about" className="about-section">
-        <div className="section-container about-grid">
-          <div className="about-text">
-            <div className="section-tag">О компании</div>
-            <h2 className="section-title">
-              20 лет на страже<br />
-              <em>прибрежных территорий</em>
-            </h2>
-            <p className="body-text">
-              ООО «НПЦ «Берегозащита» основана в 2006 году на базе профильного подразделения «Краснодарберегозащита».
-              Компания сохранила и приумножила уникальный опыт работ на Азово-Черноморском побережье — одном из
-              наиболее динамичных и сложных с инженерной точки зрения регионов страны.
+      {/* YEARS + FEATURES */}
+      <section className="v2-features-section">
+        <div className="v2-features-inner">
+          <div className="v2-years-block" ref={yearsRef}>
+            <div className="v2-years-num">{years}</div>
+            <div className="v2-years-label">лет<br />опыта</div>
+            <p className="v2-years-desc">
+              в разработке проектов и технических решений для укрепления береговых линий,
+              предотвращения эрозии, защиты от размыва и других рисков
             </p>
-            <p className="body-text">
-              Мы выполняем полный цикл работ: инженерные изыскания, научные исследования, разработку проектной
-              и рабочей документации для гидротехнических сооружений, систем водопонижения, противооползневых
-              комплексов и искусственных территорий.
-            </p>
-            <div className="about-highlights">
-              <div className="highlight-item">
-                <Icon name="CheckCircle2" size={18} />
-                <span>Работа по всей России</span>
-              </div>
-              <div className="highlight-item">
-                <Icon name="CheckCircle2" size={18} />
-                <span>Полный цикл проектирования</span>
-              </div>
-              <div className="highlight-item">
-                <Icon name="CheckCircle2" size={18} />
-                <span>Уникальный опыт на побережье</span>
-              </div>
-              <div className="highlight-item">
-                <Icon name="CheckCircle2" size={18} />
-                <span>Научный подход к каждому объекту</span>
-              </div>
-            </div>
           </div>
-          <div className="about-image-wrap">
-            <img src={TEAM_IMAGE} alt="Специалисты Берегозащита" className="about-img" />
-            <div className="about-img-badge">
-              <span className="badge-num">800+</span>
-              <span className="badge-txt">завершённых<br />проектов</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SERVICES */}
-      <section id="services" className="services-section">
-        <div className="section-container">
-          <div className="section-header">
-            <div className="section-tag">Направления работ</div>
-            <h2 className="section-title">Полный спектр<br /><em>инженерных решений</em></h2>
-          </div>
-          <div className="services-grid">
-            {SERVICES.map((s) => (
-              <div key={s.title} className="service-card">
-                <div className="service-icon">
-                  <Icon name={s.icon} size={26} />
+          <div className="v2-features-grid">
+            {FEATURES.map((f) => (
+              <div key={f.title} className="v2-feature-card">
+                <div className="v2-feature-icon">
+                  <Icon name={f.icon} size={28} />
                 </div>
-                <h3 className="service-title">{s.title}</h3>
-                <p className="service-desc">{s.desc}</p>
+                <h3 className="v2-feature-title">{f.title}</h3>
+                <p className="v2-feature-desc">{f.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ACTIVITIES */}
+      <section id="about" className="v2-activities-section">
+        <div className="v2-section-container">
+          <h2 className="v2-section-heading">ОСНОВНЫЕ ВИДЫ ДЕЯТЕЛЬНОСТИ</h2>
+          <div className="v2-activities-grid">
+            {ACTIVITIES.map((a) => (
+              <div key={a.num} className="v2-activity-item">
+                <span className="v2-activity-num">{a.num}</span>
+                <p className="v2-activity-text">{a.text}</p>
               </div>
             ))}
           </div>
@@ -310,86 +281,68 @@ export default function Index() {
       </section>
 
       {/* PROJECTS */}
-      <section id="projects" className="projects-section">
-        <div className="section-container">
-          <div className="section-header">
-            <div className="section-tag light">Портфолио</div>
-            <h2 className="section-title light">Реализованные<br /><em>проекты</em></h2>
-          </div>
-          <div className="projects-grid">
+      <section id="projects" className="v2-projects-section">
+        <div className="v2-section-container">
+          <h2 className="v2-section-heading">РЕАЛИЗОВАННЫЕ ПРОЕКТЫ</h2>
+          <div className="v2-projects-grid">
             {PROJECTS.map((p) => (
-              <div key={p.title} className="project-card">
-                <div className="project-top">
-                  <span className="project-tag">{p.tag}</span>
-                  <span className="project-year">{p.year}</span>
+              <div key={p.title} className="v2-project-card">
+                <div className="v2-project-top">
+                  <span className="v2-project-tag">{p.tag}</span>
+                  <span className="v2-project-year">{p.year}</span>
                 </div>
-                <h3 className="project-title">{p.title}</h3>
-                <div className="project-type">
-                  <Icon name="Layers" size={14} />
+                <h3 className="v2-project-title">{p.title}</h3>
+                <div className="v2-project-type">
+                  <Icon name="Layers" size={13} />
                   {p.type}
                 </div>
               </div>
             ))}
           </div>
-          <div className="projects-cta">
-            <button className="btn-outline-light">
-              Смотреть все проекты
-              <Icon name="ArrowRight" size={16} />
-            </button>
+          <div style={{ textAlign: "center", marginTop: "2.5rem" }}>
+            <button className="v2-more-btn">Смотреть все проекты</button>
           </div>
         </div>
       </section>
 
       {/* LICENSES */}
-      <section id="licenses" className="licenses-section">
-        <div className="section-container">
-          <div className="section-header">
-            <div className="section-tag">Лицензии и сертификаты</div>
-            <h2 className="section-title">Подтверждённая<br /><em>квалификация</em></h2>
-            <p className="section-desc">
-              Компания располагает всеми необходимыми допусками и лицензиями для ведения
-              проектных и изыскательских работ в области гидротехники и берегозащиты.
-            </p>
-          </div>
-          <div className="licenses-grid">
+      <section id="licenses" className="v2-licenses-section">
+        <div className="v2-section-container">
+          <h2 className="v2-section-heading">ЛИЦЕНЗИИ И СЕРТИФИКАТЫ</h2>
+          <div className="v2-licenses-grid">
             {LICENSES.map((l) => (
-              <div key={l.title} className="license-card">
-                <div className="license-icon">
-                  <Icon name={l.icon} size={28} />
+              <div key={l.title} className="v2-license-card">
+                <div className="v2-license-icon">
+                  <Icon name={l.icon} size={26} />
                 </div>
-                <div className="license-body">
-                  <h3 className="license-title">{l.title}</h3>
-                  <p className="license-desc">{l.desc}</p>
+                <div>
+                  <h3 className="v2-license-title">{l.title}</h3>
+                  <p className="v2-license-desc">{l.desc}</p>
                 </div>
               </div>
             ))}
           </div>
-          <div className="licenses-note">
-            <Icon name="Info" size={16} />
-            <span>Копии лицензий и сертификатов предоставляются по запросу</span>
+          <div className="v2-licenses-note">
+            <Icon name="Info" size={14} />
+            Копии лицензий и сертификатов предоставляются по запросу
           </div>
         </div>
       </section>
 
       {/* NEWS */}
-      <section id="news" className="news-section">
-        <div className="section-container">
-          <div className="section-header">
-            <div className="section-tag">Новости и статьи</div>
-            <h2 className="section-title">Актуальные<br /><em>материалы</em></h2>
-          </div>
-          <div className="news-grid">
+      <section id="news" className="v2-news-section">
+        <div className="v2-section-container">
+          <h2 className="v2-section-heading">НОВОСТИ И СТАТЬИ</h2>
+          <div className="v2-news-grid">
             {NEWS.map((n) => (
-              <article key={n.title} className="news-card">
-                <div className="news-top">
-                  <span className="news-tag">{n.tag}</span>
-                  <span className="news-date">{n.date}</span>
+              <article key={n.title} className="v2-news-card">
+                <div className="v2-news-top">
+                  <span className="v2-news-tag">{n.tag}</span>
+                  <span className="v2-news-date">{n.date}</span>
                 </div>
-                <h3 className="news-title">{n.title}</h3>
-                <p className="news-desc">{n.desc}</p>
-                <button className="news-link">
-                  Читать далее <Icon name="ArrowRight" size={14} />
-                </button>
+                <h3 className="v2-news-title">{n.title}</h3>
+                <p className="v2-news-desc">{n.desc}</p>
+                <button className="v2-news-more">Читать далее →</button>
               </article>
             ))}
           </div>
@@ -397,81 +350,76 @@ export default function Index() {
       </section>
 
       {/* CONTACTS */}
-      <section id="contacts" className="contacts-section">
-        <div className="section-container contacts-grid">
-          <div className="contacts-info">
-            <div className="section-tag light">Контакты</div>
-            <h2 className="section-title light">Обсудим ваш<br /><em>проект</em></h2>
-            <p className="body-text light">
-              Свяжитесь с нами для получения консультации или направьте запрос —
-              ответим в течение рабочего дня.
-            </p>
-            <div className="contact-items">
-              <div className="contact-item">
-                <Icon name="MapPin" size={18} />
-                <span>г. Краснодар, ул. Северная, 479</span>
+      <section id="contacts" className="v2-contacts-section">
+        <div className="v2-section-container v2-contacts-grid">
+          <div className="v2-contacts-info">
+            <h2 className="v2-section-heading white">КОНТАКТЫ</h2>
+            <div className="v2-contact-list">
+              <div className="v2-contact-row">
+                <Icon name="MapPin" size={16} />
+                <span>г. Краснодар, ул. Чапаева, 127</span>
               </div>
-              <div className="contact-item">
-                <Icon name="Phone" size={18} />
-                <span>+7 (861) 000-00-00</span>
+              <div className="v2-contact-row">
+                <Icon name="Phone" size={16} />
+                <span>+7 (861) 251-93-59</span>
               </div>
-              <div className="contact-item">
-                <Icon name="Mail" size={18} />
-                <span>info@beregozhita.ru</span>
+              <div className="v2-contact-row">
+                <Icon name="Mail" size={16} />
+                <span>bz@kuban-bz.ru</span>
               </div>
-              <div className="contact-item">
-                <Icon name="Clock" size={18} />
+              <div className="v2-contact-row">
+                <Icon name="Clock" size={16} />
                 <span>Пн–Пт: 9:00 – 18:00</span>
               </div>
             </div>
           </div>
-          <div className="contact-form-wrap">
-            <form className="contact-form" onSubmit={(e) => e.preventDefault()}>
-              <h3 className="form-title">Оставить заявку</h3>
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Имя</label>
-                  <input type="text" placeholder="Иван Иванов" />
-                </div>
-                <div className="form-group">
-                  <label>Телефон</label>
-                  <input type="tel" placeholder="+7 (900) 000-00-00" />
-                </div>
+          <form className="v2-contact-form" onSubmit={(e) => e.preventDefault()}>
+            <h3 className="v2-form-title">Оставить заявку</h3>
+            <div className="v2-form-row">
+              <div className="v2-form-group">
+                <label>Имя</label>
+                <input type="text" placeholder="Иван Иванов" />
               </div>
-              <div className="form-group">
-                <label>Организация</label>
-                <input type="text" placeholder="Название компании" />
+              <div className="v2-form-group">
+                <label>Телефон</label>
+                <input type="tel" placeholder="+7 (900) 000-00-00" />
               </div>
-              <div className="form-group">
-                <label>Описание задачи</label>
-                <textarea rows={4} placeholder="Опишите объект и задачу..." />
-              </div>
-              <button type="submit" className="btn-primary full-width">
-                Отправить заявку
-              </button>
-            </form>
-          </div>
+            </div>
+            <div className="v2-form-group">
+              <label>Организация</label>
+              <input type="text" placeholder="Название компании" />
+            </div>
+            <div className="v2-form-group">
+              <label>Описание задачи</label>
+              <textarea rows={4} placeholder="Опишите объект и задачу..." />
+            </div>
+            <button type="submit" className="v2-submit-btn">Отправить заявку</button>
+          </form>
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer className="site-footer">
-        <div className="footer-inner">
-          <div className="footer-brand">
-            <span className="logo-mark sm">БЗ</span>
-            <div>
-              <div className="footer-name">ООО «НПЦ «Берегозащита»</div>
-              <div className="footer-inn">ИНН: 0000000000 · ОГРН: 0000000000000</div>
+      <footer className="v2-footer">
+        <div className="v2-footer-inner">
+          <div className="v2-footer-left">
+            <div className="v2-footer-logo">
+              <div className="v2-logo-icon sm"><span>Б</span></div>
+              <div>
+                <div className="v2-footer-name">ООО «НПЦ «Берегозащита»</div>
+                <div className="v2-footer-inn">ИНН: 0000000000 · ОГРН: 0000000000000</div>
+              </div>
             </div>
           </div>
-          <div className="footer-links">
+          <nav className="v2-footer-nav">
             {NAV_LINKS.map((l) => (
-              <button key={l.href} onClick={() => scrollTo(l.href)} className="footer-link">
+              <button key={l.label} onClick={() => scrollTo(l.href)} className="v2-footer-link">
                 {l.label}
               </button>
             ))}
-          </div>
-          <div className="footer-copy">© 2006–2026 НПЦ «Берегозащита». Все права защищены.</div>
+          </nav>
+        </div>
+        <div className="v2-footer-copy">
+          © 2006–2026 ООО «НПЦ «Берегозащита». Все права защищены.
         </div>
       </footer>
     </div>
